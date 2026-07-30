@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAUSKI 99 | Cartelera Oficial Oaxaca</title>
+<meta name="description" content="La primera cartelera digital de Oaxaca. 99 negocios reales.">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;color:#111;font-family:'Inter',sans-serif}
+.header{padding:14px;text-align:center;background:#000;color:#fff;position:sticky;top:0;z-index:10}
+.header h2{font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px;font-weight:400}
+.banner-rojo{background:#ff0000;color:#fff;text-align:center;padding:11px;font-weight:900;font-size:12px}
+.banner-rojo a{color:#fff;text-decoration:none;display:block}
+.hero{width:min(860px,92vw);margin:26px auto;text-align:center;padding:10px}
+.hero h1{font-family:'Anton',sans-serif;font-size:44px;line-height:.95;text-transform:uppercase}
+.hero h1 span{background:#ff0000;color:#fff;padding:0 10px;transform:skewX(-6deg);display:inline-block}
+.hero p{font-size:15px;color:#444;margin:14px auto;max-width:620px;line-height:1.4}
+.grid{width:min(1180px,94vw);margin:20px auto;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-bottom:50px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1024px){.grid{grid-template-columns:repeat(5,1fr)}}
+.cuadro{aspect-ratio:1;border-radius:20px;background:#fff;border:1.5px solid #ececec;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.06);transition:.2s}
+.cuadro:hover{transform:translateY(-3px);border-color:#111}
+.cuadro img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1}
+.n{position:absolute;top:8px;left:10px;font-size:9px;font-weight:900;color:#666;z-index:3;background:rgba(255,255,255,.9);padding:2px 6px;border-radius:10px}
+.tag{position:absolute;bottom:8px;right:8px;background:#111;color:#fff;font-weight:900;font-size:10px;padding:5px 9px;border-radius:20px;z-index:3}
+.cuadro.ocupado{border-color:#111}
+.diamante{font-size:34px}
+.dispo{font-family:'Anton',sans-serif;font-size:13px;margin-top:6px;letter-spacing:.5px}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:99;padding:20px}
+#box{background:#fff;border-radius:24px;width:100%;max-width:380px;overflow:hidden;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.circle-wrap{width:100%;background:linear-gradient(180deg,#f8f8f8 0%,#fff 100%);padding:28px 20px 16px;display:flex;flex-direction:column;align-items:center}
+.circle-logo{width:170px;height:170px;border-radius:50%;background:#fff;border:3px solid #111;box-shadow:0 10px 30px rgba(0,0,0,.18);object-fit:contain;padding:12px;display:block}
+.verificado{font-size:10px;font-weight:900;letter-spacing:1.5px;color:#ff0000;margin-top:14px}
+.box-content{padding:4px 22px 22px}
+.btn{width:100%;padding:14px;border-radius:12px;border:none;font-weight:900;margin-top:10px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-rojo{background:#ff0000;color:#fff}
+.btn-gris{background:#f0f0f0;color:#111}
+.btn-whats{background:#25D366;color:#fff}
+.loading{grid-column:1/-1;text-align:center;padding:40px;color:#888;font-weight:700}
+</style>
+</head>
+<body>
+<div class="header"><h2 id="txt-baner1">🛒 BUSCAS ALGO EN OAXACA? CLIC Y COMPRA DIRECTO POR WHATSAPP</h2></div>
+<div class="banner-rojo"><a id="txt-baner2" href="https://wa.me/5215644276032?text=Hola%20quiero%20mi%20cuadro%20por%20$99" target="_blank" rel="noopener">¿TIENES NEGOCIO? SOLO 99 LUGARES - $99/MES - APARTA AQUI →</a></div>
+<div class="hero">
+  <h1 id="txt-titulo">TODO OAXACA <span>EN UN SOLO LUGAR</span></h1>
+  <p id="txt-sub">La primera cartelera digital de Oaxaca. 99 negocios reales y verificados. Tocas el cuadro y compras directo.</p>
+</div>
+<div class="grid" id="grid"><div class="loading">Cargando cartelera...</div></div>
+<div id="modal"><div id="box"></div></div>
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
+    e.preventDefault();
+    return false;
+  }
+});
+</script>
+<script>
+const _0x4f2a = ["\x68\x74\x74\x70\x73\x3a\x2f\x2f\x64\x6f\x63\x73\x2e\x67\x6f\x6f\x67\x6c\x65\x2e\x63\x6f\x6d\x2f\x73\x70\x72\x65\x61\x64\x73\x68\x65\x65\x74\x73\x2f\x64\x2f\x31\x71\x6f\x44\x79\x54\x65\x4d\x70\x36\x45\x78\x5f\x4e\x62\x78\x2d\x51\x47\x34\x66\x6e\x31\x6e\x71\x37\x67\x5f\x34\x6a\x74\x61\x44\x53\x6b\x41\x51\x6e\x31\x44\x70\x76\x38\x34\x2f\x67\x76\x69\x7a\x2f\x74\x71\x3f\x74\x71\x78\x3d\x6f\x75\x74\x3a\x63\x73\x76", "\x35\x32\x31\x35\x36\x34\x34\x32\x37\x36\x30\x33\x32", "\x67\x72\x69\x64", "\x6d\x6f\x64\x61\x6c", "\x62\x6f\x78", "\x63\x61\x63\x68\x65", "\x6e\x6f\x2d\x73\x74\x6f\x72\x65", "\x74\x65\x78\x74", "\x74\x61\x67\x2d\x62\x61\x6e\x65\x72\x31", "\x74\x61\x67\x2d\x62\x61\x6e\x65\x72\x32", "\x74\x61\x67\x2d\x74\x69\x74\x75\x6c\x6f", "\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c", "\x63\x75\x65\x64\x72\x6f", "\x6f\x63\x75\x70\x61\x64\x6f", "\x63\x6\x72\x72\x6f\x72", "\x63\x6f\x6e\x73\x6f\x6c\x65", "\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64", "\x63\x6c\x69\x63\x6b"];
+(function(_0x1a8321, _0x3e18fb) {
+    const _0x550a2b = function(_0x2e8317) {
+        while (--_0x2e8317) {
+            _0x1a8321['push'](_0x1a8321['shift']());
+        }
+    };
+    _0x550a2b(++_0x3e18fb);
+}(_0x4f2a, 0x187));
+const _0x550a = function(_0x1a8321, _0x3e18fb) {
+    _0x1a8321 = _0x1a8321 - 0x0;
+    let _0x550a2b = _0x4f2a[_0x1a8321];
+    return _0x550a2b;
+};
+const SHEET_URL = _0x550a('0x0');
+const WA = _0x550a('0x1');
+const isValidUrl = s => { try { const u = new URL(s.trim()); return u.protocol === 'http:' || u.protocol === 'https:'; } catch { return false; } };
+
+function parseCSV(text) {
+    const rows = []; let curRow = []; let cur = ""; let inQ = false;
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i]; const n = text[i + 1];
+        if (c == '"') { if (inQ && n == '"') { cur += '"'; i++; } else inQ = !inQ; }
+        else if (c == ',' && !inQ) { curRow.push(cur.trim()); cur = ""; }
+        else if ((c == '\n' || c == '\r') && !inQ) { if (cur || curRow.length) { curRow.push(cur.trim()); rows.push(curRow); curRow = []; cur = ""; } if (c == '\r' && n == '\n') i++; }
+        else cur += c;
+    }
+    if (cur || curRow.length) { curRow.push(cur.trim()); rows.push(curRow); }
+    return rows.filter(r => r.some(v => v));
+}
+
+function hdLogo(url) { return `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=400&h=400&fit=contain&output=webp`; }
+
+async function cargar() {
+    const grid = document.getElementById(_0x550a('0x2'));
+    const modal = document.getElementById(_0x550a('0x3'));
+    const box = document.getElementById(_0x550a('0x4'));
+    let datos = {};
+    try {
+        const r = await fetch(SHEET_URL + '&t=' + Date.now(), { cache: _0x550a('0x6') });
+        const t = await r.text();
+        const allRows = parseCSV(t);
+        const dataRows = allRows.slice(1);
+        if (dataRows[0]) {
+            const g = dataRows[0][6]?.trim();
+            const h = dataRows[0][7]?.trim();
+            const i = dataRows[0][8]?.trim();
+            if (g) document.getElementById('txt-baner1').textContent = g;
+            if (h) document.getElementById('txt-baner2').textContent = h;
+            if (i) document.getElementById('txt-titulo').innerHTML = i;
+        }
+        for (let idx = 0; idx < dataRows.length; idx++) {
+            const num = idx + 1; if (num > 99) break;
+            const cols = dataRows[idx];
+            const logourl = (cols[1] || '').trim();
+            const clickurl = (cols[2] || '').trim();
+            const dirigirurl = (cols[3] || '').trim();
+            const whatsappRaw = (cols[4] || '').trim();
+            const tituloBtn = (cols[5] || '').trim();
+            let whatsappFinal = '';
+            if (whatsappRaw) {
+                if (whatsappRaw.includes('http')) whatsappFinal = whatsappRaw;
+                else if (whatsappRaw.includes('wa.me')) whatsappFinal = 'https://' + whatsappRaw.replace('https://', '');
+                else if (whatsappRaw.match(/^\d+$/)) whatsappFinal = 'https://wa.me/' + whatsappRaw;
+                else whatsappFinal = whatsappRaw;
+            }
+            if (logourl || clickurl || dirigirurl || tituloBtn || whatsappFinal) {
+                datos[num] = {
+                    logo: isValidUrl(logourl) ? logourl : '',
+                    urlClic: isValidUrl(clickurl) ? clickurl : '',
+                    urlDir: isValidUrl(dirigirurl) ? dirigirurl : '',
+                    fidel: whatsappFinal,
+                    txtBtn: tituloBtn || 'Contactar ahora',
+                    titulo: tituloBtn || 'Negocio verificado'
+                };
+            }
+        }
+    } catch (e) { console.error(e); }
+    grid.innerHTML = "";
+    for (let i = 1; i <= 99; i++) {
+        const info = datos[i];
+        const ocupado = !!info;
+        const div = document.createElement('div');
+        div.className = 'cuadro' + (ocupado ? ' ocupado' : '');
+        div.innerHTML = `<div class="n">#${String(i).padStart(3,'0')}</div>${ocupado?'':`<div class="tag">$99/mes</div>`}${ocupado&&info.logo?`<img src="${info.logo}" loading="lazy">`:`${ocupado?`<div class="diamante">🏪</div><div class="dispo">${(info?.titulo||'').toUpperCase().slice(0,12)}</div>`:`<div class="diamante">💎</div><div class="dispo">DISPONIBLE</div>`}`}`;
+        const img = div.querySelector('img'); if (img) { img.onerror = () => { img.remove(); div.insertAdjacentHTML('beforeend', `<div class="diamante">🏪</div><div class="dispo">${(info?.titulo||'').toUpperCase().slice(0,12)}</div>`); }; }
+        div.onclick = () => {
+            if (!ocupado) {
+                box.innerHTML = `<div class="circle-wrap"><div style="width:170px;height:170px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:50px;border:3px dashed #ccc">💎</div><div class="verificado">CUADRO #${String(i).padStart(3,'0')} • DISPONIBLE</div></div><div class="box-content"><h3 style="font-family:Anton;font-size:24px">¿QUIERES ESTE LUGAR?</h3><button class="btn btn-rojo" onclick="window.open('https://wa.me/${WA}?text=${encodeURIComponent('Hola quiero el cuadro #'+i)}','_blank')">QUIERO EL #${i} POR $99</button><button class="btn btn-gris" id="c1">Cerrar</button></div>`;
+                modal.style.display = 'flex'; document.getElementById('c1').onclick = () => modal.style.display = 'none';
+            } else {
+                const urlFinal = info.urlDir || info.urlClic || `https://wa.me/${WA}`;
+                box.innerHTML = `
+          <div class="circle-wrap">
+            ${info.logo?`<img class="circle-logo" src="${hdLogo(info.logo)}">`:`<div class="circle-logo" style="display:flex;align-items:center;justify-content:center;font-size:50px">🏪</div>`}
+            <div class="verificado">#${String(i).padStart(3,'0')} • VERIFICADO EN OAXACA</div>
+          </div>
+          <div class="box-content">
+            <h3 style="font-family:'Anton',sans-serif;font-size:24px;line-height:1;margin:6px 0">${info.titulo}</h3>
+            <button class="btn btn-rojo" onclick="window.open('${urlFinal}','_blank','noopener')">${info.txtBtn}</button>
+            ${info.fidel?`<button class="btn btn-whats" onclick="window.open('${info.fidel}','_blank','noopener')"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M19.05 4.94A9.91 9.91 0 0 0 12.04 2C6.58 2 2.14 6.45 2.14 11.9c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.82 9.82 0 0 0 4.7 1.2h.01c5.46 0 9.9-4.45 9.9-9.9a9.83 0 0 0-2.91-6.98Zm-7.01 13.6h-.01a8.16 8.16 0 0 1-4.16-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.39c0-4.53 3.69-8.22 8.23-8.22a8.2 0 0 1 5.8 2.4 8.14 8.14 0 0 1 2.41 5.8c0 4.53-3.69 8.22-8.22 8.22Zm4.52-6.15c-.25-.13-1.47-.72-1.69-.8s-.39-.13-.55.13-.64.8-.79.97-.29.18-.54.06a6.7 6.7 0 0 1-1.97-1.22 7.5 7.5 0 0 1-1.38-1.72c-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43s-.55-1.33-.76-1.82c-.2-.47-.4-.41-.55-.42h-.47c-.16 0-.43.06-.66.31s-.86.84-.86 2.05.88 2.38 1 2.55 1.74 2.65 4.21 3.72c.59.25 1.05.4 1.4.52.59.19 1.12.16 1.54.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.29Z"/></svg> WhatsApp directo</button>`:''}
+            <button class="btn btn-gris" id="c2">Cerrar</button>
+          </div>`;
+                modal.style.display = 'flex'; document.getElementById('c2').onclick = () => modal.style.display = 'none';
+            }
+        };
+        grid.appendChild(div);
+    }
+    modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+}
+cargar();
+</script>
+</body>
+</html>
